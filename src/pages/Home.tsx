@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { H2, Cta, Band } from "../components/ui";
+import { H2, Cta, Band, BleedShot } from "../components/ui";
 import { percorsiCards, testimonials } from "../data/content";
 import { color, font, site, mailLink } from "../theme";
 
@@ -174,6 +174,12 @@ export default function Home() {
           </p>
         </div>
       </Band>
+
+      <BleedShot
+        src="/images/chatgpt-image-19-ago-2026-16_50_36.png"
+        alt="Raffaella in un prato di montagna mentre gioca con i suoi cani"
+        position="50% 46%"
+      />
 
       <section
         style={{

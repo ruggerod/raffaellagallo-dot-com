@@ -1,4 +1,5 @@
 import type { ReactNode, CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 import { color, font } from '../theme';
 
 export const Eyebrow = ({ children }: { children: ReactNode }) => (
@@ -50,21 +51,14 @@ export const Cta = ({ href, children, tone = 'solid' }: { href: string; children
     ghost: { border: '1px solid ' + color.teal, color: color.teal },
     onDark: { background: '#fff', color: color.teal },
   };
-  return (
-    <a
-      href={href}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      rel="noopener"
-      className={tone === 'ghost' ? 'btnGhost' : tone === 'solid' ? 'btn' : undefined}
-      style={{
-        display: 'inline-block', marginTop: 24, fontFamily: font.accent, fontSize: 11,
-        letterSpacing: '.18em', textTransform: 'uppercase', padding: '17px 30px',
-        borderRadius: 2, ...styles[tone],
-      }}
-    >
-      {children}
-    </a>
-  );
+  const s: CSSProperties = {
+    display: 'inline-block', marginTop: 24, fontFamily: font.accent, fontSize: 11,
+    letterSpacing: '.18em', textTransform: 'uppercase', padding: '17px 30px',
+    borderRadius: 2, ...styles[tone],
+  };
+  const cls = tone === 'ghost' ? 'btnGhost' : tone === 'solid' ? 'btn' : undefined;
+  if (href.startsWith('/')) return <Link to={href} className={cls} style={s}>{children}</Link>;
+  return <a href={href} target="_blank" rel="noopener" className={cls} style={s}>{children}</a>;
 };
 
 /** Foto inserita nel flusso della colonna di testo. */

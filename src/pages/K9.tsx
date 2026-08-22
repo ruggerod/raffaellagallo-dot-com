@@ -1,6 +1,6 @@
 import { Eyebrow, H1, Sub, Prose, Shot, Multi, Cta } from '../components/ui';
 import { k9Blocks } from '../data/content';
-import { color, font, waLink } from '../theme';
+import { color, font } from '../theme';
 
 const priceCards = [
   { label: 'INCONTRO INDIVIDUALE', detail: '60 minuti\nPresso di me oppure online', price: '50 €' },
@@ -53,7 +53,7 @@ export default function K9() {
           <p style={{ fontSize: 15.8, lineHeight: 1.8, marginTop: 16, color: 'rgba(255,255,255,.92)' }}>
             Non è necessario sapere già quali esercizi siano adatti al tuo cane. Partiremo da lui: dalle sue caratteristiche, dalle sue capacità e da ciò che vogliamo costruire insieme.
           </p>
-          <Cta href={waLink} tone="onDark">Richiedi un incontro</Cta>
+          <Cta href="/contact/" tone="onDark">Richiedi un incontro</Cta>
         </div>
       </section>
     </div>

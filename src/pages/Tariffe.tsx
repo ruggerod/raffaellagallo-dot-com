@@ -1,6 +1,6 @@
 import { Eyebrow, H1, Prose, Card, Multi, Cta } from '../components/ui';
 import { tariffeBlocks, infoBlocks } from '../data/content';
-import { color, font, waLink } from '../theme';
+import { color, font } from '../theme';
 
 export default function Tariffe() {
   return (
@@ -53,7 +53,7 @@ export default function Tariffe() {
           <p style={{ fontSize: 15.8, lineHeight: 1.8, marginTop: 16, color: 'rgba(255,255,255,.92)' }}>
             Non è necessario sapere già quale percorso scegliere. Raccontami brevemente chi è il tuo cane, la sua età e che cosa vorresti migliorare o approfondire. Ti aiuterò a individuare la soluzione più adatta.
           </p>
-          <Cta href={waLink} tone="onDark">Richiedi un primo incontro</Cta>
+          <Cta href="/contact/" tone="onDark">Richiedi un primo incontro</Cta>
         </div>
       </section>
     </div>

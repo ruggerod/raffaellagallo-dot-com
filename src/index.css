@@ -1,5 +1,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+html { overflow-x: hidden; }
+.fieldInput:focus { border-color: #2BC4C4 !important; }
+
 body {
   margin: 0;
   background: #FAF9F6;

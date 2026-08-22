@@ -1,6 +1,6 @@
 import { Eyebrow, H1, Prose, Card, Multi, Band, Cta } from '../components/ui';
 import { percorsiBlocks } from '../data/content';
-import { color, font, waLink } from '../theme';
+import { color, font } from '../theme';
 
 export default function Percorsi() {
   return (
@@ -38,7 +38,7 @@ export default function Percorsi() {
           <p style={{ fontSize: 15.5, lineHeight: 1.75, color: color.body, marginTop: 18, maxWidth: '44ch', marginLeft: 'auto', marginRight: 'auto' }}>
             Non è necessario sapere quale percorso scegliere: il primo passo è conoscerci. Raccontami la vostra storia e capiremo insieme da dove iniziare.
           </p>
-          <Cta href={waLink}>Prenota il primo incontro</Cta>
+          <Cta href="/contact/">Prenota il primo incontro</Cta>
         </div>
       </Band>
     </div>

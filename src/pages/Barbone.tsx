@@ -1,6 +1,6 @@
 import { Eyebrow, H1, Sub, Prose, Shot, BleedShot, Multi, Cta } from '../components/ui';
 import { barboneBlocks } from '../data/content';
-import { color, font, waLink } from '../theme';
+import { color, font } from '../theme';
 
 export default function Barbone() {
   return (
@@ -45,7 +45,7 @@ export default function Barbone() {
             <p>Validità: 2 mesi</p>
           </div>
           <p style={{ fontFamily: font.display, fontSize: 46, marginTop: 26 }}>390 €</p>
-          <Cta href={waLink} tone="onDark">Richiedi un primo incontro</Cta>
+          <Cta href="/contact/" tone="onDark">Richiedi un primo incontro</Cta>
         </div>
       </section>
     </div>
