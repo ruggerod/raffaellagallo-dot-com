@@ -1,4 +1,5 @@
-import { color, font, waLink, igLink, mailLink } from '../theme';
+import { Link } from 'react-router-dom';
+import { color, font, igLink, mailLink } from '../theme';
 
 const base = {
   flex: 1, textAlign: 'center' as const, fontFamily: font.accent, fontSize: 10.5,
@@ -9,7 +10,7 @@ const base = {
 export default function StickyBar() {
   return (
     <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, display: 'flex', gap: 1, background: color.pearl, boxShadow: '0 -6px 20px rgba(37,40,42,.08)' }}>
-      <a href={waLink} target="_blank" rel="noopener" style={{ ...base, background: color.tiffany, color: '#fff' }}>WHATSAPP</a>
+      <Link to="/contact/" style={{ ...base, background: color.tiffany, color: '#fff' }}>RICHIEDI UN INCONTRO</Link>
       <a href={igLink} target="_blank" rel="noopener" style={{ ...base, background: color.ivory, color: color.teal }}>INSTAGRAM</a>
       <a href={mailLink} style={{ ...base, background: color.ivory, color: color.ink }}>EMAIL</a>
     </div>

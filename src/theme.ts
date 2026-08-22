@@ -17,13 +17,10 @@ export const font = {
 } as const;
 
 export const site = {
-  /** Numero WhatsApp in formato internazionale, solo cifre. */
-  whatsapp: '393482302998',
   instagram: 'raffaellagallo_petcoach',
   email: 'raffa.fliz@gmail.com',
   city: '20090, Buccinasco (MI)',
 } as const;
 
-export const waLink = 'https://wa.me/' + site.whatsapp;
 export const igLink = 'https://instagram.com/' + site.instagram;
 export const mailLink = 'mailto:' + site.email;

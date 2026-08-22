@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { routes } from '../routes';
-import { color, font, site, waLink, igLink, mailLink } from '../theme';
+import { color, font, site, igLink, mailLink } from '../theme';
 
 const link = { fontSize: 14.5, color: 'rgba(250,249,246,.75)' } as const;
 
@@ -25,7 +25,6 @@ export default function Footer({ sticky }: { sticky: boolean }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <p style={{ fontFamily: font.accent, fontSize: 10, letterSpacing: '.2em', color: color.tiffany }}>SEGUIMI</p>
           <a href={igLink} target="_blank" rel="noopener" className="footLink" style={link}>Instagram</a>
-          <a href={waLink} target="_blank" rel="noopener" className="footLink" style={link}>WhatsApp</a>
           <a href={mailLink} className="footLink" style={link}>Email</a>
           <Link to="/privacy-policy/" className="footLink" style={{ fontSize: 13, color: 'rgba(250,249,246,.45)', marginTop: 12 }}>Privacy Policy</Link>
         </div>

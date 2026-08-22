@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { routes } from '../routes';
-import { color, font, waLink, igLink } from '../theme';
+import { color, font, igLink } from '../theme';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -58,7 +58,7 @@ export default function Header() {
               </button>
             ))}
             <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-              <a href={waLink} target="_blank" rel="noopener" style={{ flex: 1, textAlign: 'center', background: color.tiffany, color: '#fff', fontFamily: font.accent, fontSize: 10.5, letterSpacing: '.14em', padding: '15px 10px', borderRadius: 2 }}>WHATSAPP</a>
+              <Link to="/contact/" onClick={() => setOpen(false)} style={{ flex: 1, textAlign: 'center', background: color.tiffany, color: '#fff', fontFamily: font.accent, fontWeight: 500, fontSize: 10.5, letterSpacing: '.14em', padding: '15px 10px', borderRadius: 2 }}>RICHIEDI UN INCONTRO</Link>
               <a href={igLink} target="_blank" rel="noopener" style={{ flex: 1, textAlign: 'center', border: '1px solid ' + color.teal, color: color.teal, fontFamily: font.accent, fontSize: 10.5, letterSpacing: '.14em', padding: '15px 10px', borderRadius: 2 }}>INSTAGRAM</a>
             </div>
           </div>
