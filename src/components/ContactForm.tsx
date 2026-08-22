@@ -1,9 +1,11 @@
 import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { color, font } from '../theme';
+import { color, font, site, mailLink } from '../theme';
 
-/** Endpoint del form. Vuoto = nessun invio, mostra solo lo stato di conferma. */
-const ENDPOINT = '';
+/** Web3Forms: la richiesta arriva via email a site.email. La chiave sta in theme.ts. */
+const ENDPOINT = 'https://api.web3forms.com/submit';
+
+const errColor = '#C2544D';
 
 const field: CSSProperties = {
   fontFamily: 'Lato, system-ui, sans-serif', fontSize: 16, color: color.ink,
@@ -13,8 +15,13 @@ const field: CSSProperties = {
 const labelText: CSSProperties = { fontFamily: font.accent, fontWeight: 500, fontSize: 11, letterSpacing: '.1em', color: color.ink };
 const legend: CSSProperties = { fontFamily: font.accent, fontWeight: 500, fontSize: 10, letterSpacing: '.24em', color: color.teal, marginBottom: 14 };
 const group: CSSProperties = { border: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 18 };
-const errText: CSSProperties = { fontSize: 13, color: '#C2544D' };
+const errText: CSSProperties = { fontSize: 13, color: errColor };
+/** Fuori dallo schermo ma non display:none, che i bot riconoscono. */
+const honeypot: CSSProperties = { position: 'absolute', left: -9999, width: 1, height: 1, opacity: 0 };
 const Req = () => <span style={{ color: color.tiffany }}>*</span>;
+
+const ERR_RETE = 'Non sono riuscita a ricevere il tuo messaggio: può essere un problema momentaneo di collegamento. Riprova tra qualche minuto.';
+const ERR_LIMITE = 'Il modulo ha raggiunto il numero massimo di invii consentiti per oggi.';
 
 const modalitaOptions = ['Da me a Buccinasco', 'Online', 'A domicilio', 'Non lo so ancora'];
 const servizi = [
@@ -33,6 +40,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<Record<string, string | null>>({});
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [failed, setFailed] = useState<string | null>(null);
 
   const set = (name: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const t = e.target as HTMLInputElement;
@@ -42,21 +50,56 @@ export default function ContactForm() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const txt = (k: string) => String(v[k] ?? '').trim();
+
     const next: Record<string, string> = {};
-    if (!String(v.nome ?? '').trim()) next.nome = 'Indicami come ti chiami';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v.email ?? '').trim())) next.email = 'Serve un indirizzo email valido';
-    if (!String(v.richiesta ?? '').trim()) next.richiesta = 'Raccontami brevemente cosa vi porta qui';
+    if (!txt('nome')) next.nome = 'Indicami come ti chiami';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(txt('email'))) next.email = 'Serve un indirizzo email valido';
+    if (!txt('richiesta')) next.richiesta = 'Raccontami brevemente cosa vi porta qui';
     if (!v.privacy) next.privacy = 'Necessario per poterti rispondere';
     if (Object.keys(next).length) { setErrors(next); return; }
 
-    if (ENDPOINT) {
-      setBusy(true);
-      try {
-        await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(v) });
-      } finally { setBusy(false); }
+    // Web3Forms costruisce il corpo della mail dai nomi delle chiavi: qui diventano
+    // etichette leggibili. I campi lasciati vuoti non vengono inviati.
+    const payload: Record<string, string | boolean> = {
+      access_key: site.web3formsKey,
+      subject: 'Nuova richiesta dal sito — ' + txt('nome'),
+      from_name: 'Sito raffaellagallo.com',
+      botcheck: Boolean(v.botcheck),
+      email: txt('email'),
+    };
+    const campi: [string, string][] = [
+      ['Nome e cognome', txt('nome')],
+      ['Telefono', txt('telefono')],
+      ['Località', txt('localita')],
+      ['Il cane', txt('cane')],
+      ['Richiesta', txt('richiesta')],
+      ['Servizio di interesse', txt('servizio')],
+      ['Modalità preferita', txt('modalita')],
+      ['Consenso privacy', v.privacy ? 'Sì, accettato' : 'No'],
+    ];
+    for (const [etichetta, valore] of campi) if (valore) payload[etichetta] = valore;
+
+    setBusy(true);
+    setFailed(null);
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        setFailed(res.status === 429 ? ERR_LIMITE : ERR_RETE);
+        return;
+      }
+      setSent(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch {
+      setFailed(ERR_RETE);
+    } finally {
+      setBusy(false);
     }
-    setSent(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (sent) {
@@ -72,6 +115,11 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={submit} noValidate style={{ maxWidth: 620, marginTop: 36, display: 'flex', flexDirection: 'column', gap: 34 }}>
+      <input
+        type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true"
+        checked={Boolean(v.botcheck)} onChange={set('botcheck')} style={honeypot}
+      />
+
       <fieldset style={group}>
         <legend style={legend}>I TUOI DATI</legend>
 
@@ -150,7 +198,18 @@ export default function ContactForm() {
           <span>Ho letto e accetto l’<Link to="/privacy-policy/">informativa sulla privacy</Link>. <Req /></span>
         </label>
         {errors.privacy && <span style={{ ...errText, marginTop: -10 }}>{errors.privacy}</span>}
-        <button type="submit" className="btn" disabled={busy} style={{ alignSelf: 'flex-start', background: color.tiffany, color: '#fff', border: 'none', fontFamily: font.accent, fontWeight: 500, fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '18px 34px', borderRadius: 2, cursor: 'pointer' }}>
+
+        {failed && (
+          <div role="alert" aria-live="polite" style={{ background: color.white, border: '1px solid ' + color.pearl, borderTop: '2px solid ' + errColor, padding: '26px 24px' }}>
+            <p style={{ fontFamily: font.accent, fontSize: 10, letterSpacing: '.24em', color: errColor }}>RICHIESTA NON INVIATA</p>
+            <p style={{ fontSize: 15.5, lineHeight: 1.8, color: color.body, marginTop: 14 }}>{failed}</p>
+            <p style={{ fontSize: 15.5, lineHeight: 1.8, color: color.body, marginTop: 12 }}>
+              Se preferisci, scrivimi direttamente a <a href={mailLink}>{site.email}</a>: leggo personalmente ogni messaggio.
+            </p>
+          </div>
+        )}
+
+        <button type="submit" className="btn" disabled={busy} style={{ alignSelf: 'flex-start', background: color.tiffany, color: '#fff', border: 'none', fontFamily: font.accent, fontWeight: 500, fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', padding: '18px 34px', borderRadius: 2, cursor: busy ? 'default' : 'pointer', opacity: busy ? 0.6 : 1 }}>
           {busy ? 'Invio…' : 'Invia la richiesta'}
         </button>
         <p style={{ fontSize: 13.5, lineHeight: 1.7, color: color.muted }}>I campi con <Req /> sono necessari. Rispondo personalmente a ogni richiesta nei giorni lavorativi.</p>

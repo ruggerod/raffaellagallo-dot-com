@@ -20,6 +20,12 @@ export const site = {
   instagram: 'raffaellagallo_petcoach',
   email: 'raffa.fliz@gmail.com',
   city: '20090, Buccinasco (MI)',
+  /**
+   * Access key di Web3Forms, associata a site.email. Non è un segreto: sta nel bundle
+   * pubblico ed è così per progetto. Si ottiene da https://web3forms.com/ inserendo
+   * l'indirizzo email e confermando il link di verifica che arriva in casella.
+   */
+  web3formsKey: 'INCOLLA-QUI-LA-ACCESS-KEY',
 } as const;
 
 export const igLink = 'https://instagram.com/' + site.instagram;
