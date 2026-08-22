@@ -1,0 +1,29 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #FAF9F6;
+  color: #25282A;
+  font-family: Lato, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 400; }
+p { margin: 0; }
+
+a { color: #2799A4; text-decoration: none; }
+a:hover { color: #2BC4C4; }
+
+::selection { background: #2BC4C4; color: #fff; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.page { animation: fadeUp .3s ease both; }
+.hoverCard:hover { border-color: #2BC4C4 !important; }
+.navLink:hover { color: #2799A4; }
+.footLink:hover { color: #2BC4C4 !important; }
+.btn:hover { background: #2799A4 !important; }
+.btnGhost:hover { background: #2799A4 !important; color: #fff !important; }

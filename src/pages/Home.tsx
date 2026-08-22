@@ -1,0 +1,94 @@
+import { Link } from 'react-router-dom';
+import { Eyebrow, H2, Photo, Cta, Band } from '../components/ui';
+import { percorsiCards, testimonials } from '../data/content';
+import { color, font, site, waLink, mailLink } from '../theme';
+
+export default function Home() {
+  return (
+    <div className="page">
+      <section style={{ padding: '46px 0 8px' }}>
+        <Eyebrow>EDUCAZIONE · RELAZIONE · SINTONIA</Eyebrow>
+        <h1 style={{ fontFamily: font.display, fontSize: 'clamp(38px, 10vw, 68px)', lineHeight: 1.04, letterSpacing: '-.01em', marginTop: 22 }}>
+          Ogni cane ha una storia.
+        </h1>
+        <h2 style={{ fontFamily: font.display, fontStyle: 'italic', fontSize: 'clamp(21px, 5.4vw, 34px)', color: color.teal, marginTop: 12, lineHeight: 1.2 }}>
+          Ogni percorso è unico.
+        </h2>
+      </section>
+
+      <Photo label="foto — Raffaella con il cane, sguardo / relazione" ratio="4/5" max={520} />
+
+      <section style={{ padding: '44px 0 0' }}>
+        <H2 style={{ fontSize: 'clamp(27px, 6.6vw, 42px)', lineHeight: 1.18 }}>
+          <em>Comprendere</em> il cane cambia il modo di vivere insieme.
+        </H2>
+        <p style={{ fontSize: 16.5, lineHeight: 1.75, color: color.body, marginTop: 20, maxWidth: '56ch', textWrap: 'pretty' }}>
+          Scopri i percorsi personalizzati di educazione e rieducazione cinofila per migliorare la vita quotidiana con il tuo cane.
+        </p>
+        <Cta href={waLink}>prenota una consulenza</Cta>
+      </section>
+
+      <section style={{ padding: '64px 0 0' }}>
+        <H2 style={{ maxWidth: '24ch' }}>Percorsi diversi, costruiti intorno al cane e alla vita che condividete.</H2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginTop: 28 }}>
+          {percorsiCards.map(c => (
+            <Link
+              key={c.title}
+              to={c.to}
+              className="hoverCard"
+              style={{
+                background: color.white, border: '1px solid ' + color.pearl,
+                padding: '26px 22px 24px', display: 'flex', flexDirection: 'column',
+                gap: 10, minHeight: 150,
+              }}
+            >
+              <span style={{ fontFamily: font.accent, fontSize: 11, letterSpacing: '.2em', color: color.teal }}>{c.title}</span>
+              <span style={{ fontSize: 15.5, lineHeight: 1.6, color: color.body }}>{c.body}</span>
+              <span style={{ fontFamily: font.accent, fontSize: 9.5, letterSpacing: '.2em', color: color.ink, marginTop: 'auto' }}>SCOPRI →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <Band>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ fontFamily: font.display, fontSize: 44, lineHeight: 0, color: 'rgba(255,255,255,.6)', display: 'block' }}>“</span>
+          <p style={{ fontFamily: font.display, fontSize: 'clamp(20px, 5vw, 30px)', lineHeight: 1.42, marginTop: 14 }}>
+            Ogni relazione nasce dalla comprensione.<br />Ogni cambiamento nasce dalla sintonia.
+          </p>
+        </div>
+      </Band>
+
+      <section style={{ padding: '60px 0 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 34 }}>
+        <div>
+          <h3 style={{ fontFamily: font.accent, fontSize: 11, letterSpacing: '.24em', color: color.teal }}>CONTATTI</h3>
+          <div style={{ height: 1, background: color.pearl, margin: '14px 0 18px' }} />
+          <p style={{ fontSize: 16, lineHeight: 1.9, color: color.body }}>
+            {site.city}<br /><a href={mailLink}>{site.email}</a>
+          </p>
+        </div>
+        <div>
+          <h3 style={{ fontFamily: font.accent, fontSize: 11, letterSpacing: '.24em', color: color.teal }}>INIZIAMO DA QUI</h3>
+          <div style={{ height: 1, background: color.pearl, margin: '14px 0 18px' }} />
+          <p style={{ fontSize: 16, lineHeight: 1.75, color: color.body, textWrap: 'pretty' }}>
+            Raccontami brevemente chi è il tuo cane e che cosa vi porta qui. Non è necessario sapere già quale percorso scegliere: dalle informazioni che mi darai potrò aiutarti a individuare quello più adatto.
+          </p>
+          <Cta href="/contact/" tone="ghost">Richiedi un primo incontro</Cta>
+        </div>
+      </section>
+
+      <section style={{ padding: '64px 0 0' }}>
+        <h3 style={{ fontFamily: font.accent, fontSize: 11, letterSpacing: '.24em', color: color.teal }}>DICONO DI ME</h3>
+        <div style={{ height: 1, background: color.pearl, margin: '14px 0 24px' }} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+          {testimonials.map(t => (
+            <div key={t.name} style={{ background: color.pearl, padding: '26px 24px' }}>
+              <p style={{ fontSize: 15.5, lineHeight: 1.78, color: '#3D4547', whiteSpace: 'pre-line', textWrap: 'pretty' }}>{t.text}</p>
+              <p style={{ fontFamily: font.display, fontSize: 17, marginTop: 18, color: color.teal }}>{t.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
