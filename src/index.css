@@ -27,3 +27,19 @@ a:hover { color: #2BC4C4; }
 .footLink:hover { color: #2BC4C4 !important; }
 .btn:hover { background: #2799A4 !important; }
 .btnGhost:hover { background: #2799A4 !important; color: #fff !important; }
+
+/* HERO home: la foto tiene il ritaglio verticale su mobile e panoramico su desktop. */
+.hero { min-height: 74vh; max-height: 780px; }
+.heroImg { object-position: 58% 22%; }
+.heroScrim {
+  background: linear-gradient(to top, rgba(16,26,28,.80) 0%, rgba(16,26,28,.45) 42%, rgba(16,26,28,.10) 78%);
+}
+
+@media (min-width: 760px) {
+  .hero { min-height: 0; height: 60vw; max-height: 660px; align-items: center !important; }
+  .heroImg { object-position: 68% 30%; }
+  .heroScrim {
+    background: linear-gradient(to right, rgba(16,26,28,.82) 0%, rgba(16,26,28,.62) 38%, rgba(16,26,28,.18) 68%, rgba(16,26,28,.02) 100%);
+  }
+  .hero > div:last-child { padding-bottom: 0 !important; }
+}

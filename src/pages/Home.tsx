@@ -88,26 +88,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section style={{ padding: "52px 0 0" }}>
-        <H2 style={{ fontSize: "clamp(27px, 6.6vw, 42px)", lineHeight: 1.18 }}>
-          <em>Comprendere</em> il cane cambia il modo di vivere insieme.
-        </H2>
-        <p
-          style={{
-            fontSize: 16.5,
-            lineHeight: 1.75,
-            color: color.body,
-            marginTop: 20,
-            maxWidth: "56ch",
-            textWrap: "pretty",
-          }}
-        >
-          Scopri i percorsi personalizzati di educazione e rieducazione cinofila
-          per migliorare la vita quotidiana con il tuo cane.
-        </p>
-        <Cta href={waLink}>prenota una consulenza</Cta>
-      </section>
-
       <section style={{ padding: "64px 0 0" }}>
         <H2 style={{ maxWidth: "24ch" }}>
           Percorsi diversi, costruiti intorno al cane e alla vita che
