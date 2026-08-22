@@ -25,6 +25,13 @@ Flusso standard per una richiesta di modifica:
     npm run preview
     npm run deploy     # gh-pages -d dist --dotfiles
 
+Il sito è già online su https://raffaellagallo.com. `CONTINUOUS_DEVELOPMENT.md` è il
+riferimento per gli aggiornamenti: spiega in particolare che `git push` (sorgente) e
+`npm run deploy` (sito pubblicato) sono due operazioni distinte e vanno fatte entrambe.
+`DEPLOY.md` riguarda la migrazione iniziale e il modulo contatti.
+
+I nomi dei file sono in inglese anche quando il contenuto è in italiano.
+
 ## Struttura
 
     src/theme.ts          colori, font, contatti (WhatsApp, Instagram, email). Unica fonte dei token.

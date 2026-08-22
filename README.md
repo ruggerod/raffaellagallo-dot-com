@@ -41,6 +41,9 @@ Opzione rapida:
 Poi Settings → Pages → branch \`gh-pages\`, custom domain \`raffaellagallo.com\`,
 Enforce HTTPS. Dettagli su DNS e disdetta WordPress in \`DEPLOY.md\`.
 
+**Per gli aggiornamenti di tutti i giorni** — ciclo di lavoro, dove mettere le cose, verifica
+dopo il deploy, rollback e manutenzione — vedi \`CONTINUOUS_DEVELOPMENT.md\`.
+
 ## Setup locale
 
     cd C:\\Users\\Ruggero\\Developer
