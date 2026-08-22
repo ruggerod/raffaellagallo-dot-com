@@ -63,11 +63,22 @@ sia così.
 
 **Limiti del piano gratuito, da conoscere:**
 - 250 invii al mese. Il volume atteso è di poche decine, il margine è ampio.
-- Gli invii restano archiviati 30 giorni sui server Web3Forms (AWS, Stati Uniti), poi
-  vengono cancellati. Non è un semplice inoltro: è un trattamento di dati personali fuori
-  dall'UE e va dichiarato nell'informativa privacy.
 - La risposta automatica a chi scrive e la restrizione per dominio sono funzioni a pagamento
   (~5 $/mese). Al posto della prima il sito mostra la schermata di conferma.
+
+**Conservazione e trattamento dei dati.** Attenzione a non fidarsi delle pagine commerciali
+del sito Web3Forms: i numeri veri stanno nel DPA (https://web3forms.com/dpa), che è il
+documento vincolante.
+- I «30 giorni» del piano gratuito sono solo la **visibilità nel pannello**. La cancellazione
+  effettiva avviene con un *time-to-live* di **tre anni** dall'invio (DPA §8).
+- L'infrastruttura non è solo statunitense: il DPA elenca AWS, Cloudflare e **Hetzner
+  (Germania e Finlandia)**.
+- L'antispam **CleanTalk** e **Akismet** (Automattic, USA) ricevono indirizzo IP ed email di
+  chi compila il modulo.
+- Web3Creative è stabilita in **India**; il trasferimento extra-UE si fonda sulle Clausole
+  Contrattuali Tipo, decisione di esecuzione (UE) 2021/914.
+- **Il DPA va accettato attivamente** dal pannello Web3Forms: non è automatico, e senza
+  quell'accettazione manca la base contrattuale del trasferimento.
 
 **Come si prova.** Solo dal browser. Web3Forms risponde `403` alle chiamate che non
 sembrano venire da una pagina web, quindi un test con `curl` fallisce anche con la chiave
@@ -81,8 +92,17 @@ browser, è un rallentamento e non una protezione. Il form ha già un honeypot (
 dovesse comparire spam mirato, in ordine di sforzo crescente: rigenerare la access key,
 passare al piano a pagamento per l'allowlist di dominio, aggiungere Cloudflare Turnstile.
 
-**Da chiudere prima di andare online.** `src/pages/Privacy.tsx` è ancora un placeholder, ma
-il form ha una checkbox di consenso obbligatoria che ci punta. L'informativa deve nominare
-Web3Forms come responsabile del trattamento, indicare la conservazione di 30 giorni negli
-Stati Uniti e la base del trasferimento extra-UE, oltre a finalità, tempi e diritti
-dell'interessato.
+**Informativa privacy.** `src/pages/Privacy.tsx` è stata riscritta a partire dal testo del
+vecchio sito WordPress e adattata a questo assetto: nomina Web3Forms e i suoi
+sub-responsabili, GitHub Pages e Google, dichiara il trasferimento extra-UE e i tempi di
+conservazione reali. È stata tolta la finalità «newsletter Mailchimp», perché il nuovo sito
+non ha alcun form di iscrizione.
+
+Restano due punti da chiudere con Raffaella prima di pubblicare sul dominio:
+- **far leggere e approvare il testo** dell'informativa, ed eventualmente farlo vedere a un
+  consulente: è un documento legale, non copy di sito;
+- **accettare il DPA** sul pannello Web3Forms (vedi sopra).
+
+Da valutare, non bloccante: i font sono caricati da Google Fonts, quindi l'IP dei visitatori
+raggiunge Google. Ospitare i file dei caratteri in `public/` eliminerebbe del tutto quel
+trasferimento e una voce dall'informativa.

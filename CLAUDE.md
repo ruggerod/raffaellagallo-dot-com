@@ -80,7 +80,9 @@ chiedi.
 
 - Le foto sono segnaposto (componente `Photo`). Quando arrivano i file reali vanno in
   `public/img/` e `Photo` va sostituito con `<img>` con `alt` in italiano.
-- `src/pages/Privacy.tsx` contiene un placeholder: serve il testo dell'informativa.
+- `src/pages/Privacy.tsx` è stata riscritta per l'assetto attuale (form via Web3Forms,
+  hosting GitHub Pages): manca solo l'approvazione di Raffaella. È un testo legale, non
+  toccarlo per iniziativa propria.
 - Mancano i testi della pagina "Il mio percorso" e ci sono solo 2 testimonianze su
   `/testimonial/` (quelle presenti in home sul sito originale).
 - `SHOW_STICKY_BAR` in `src/App.tsx` è `false`: la barra fissa mobile è disattivata.
