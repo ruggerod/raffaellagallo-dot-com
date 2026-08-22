@@ -25,7 +25,7 @@ export const site = {
    * pubblico ed è così per progetto. Si ottiene da https://web3forms.com/ inserendo
    * l'indirizzo email e confermando il link di verifica che arriva in casella.
    */
-  web3formsKey: 'INCOLLA-QUI-LA-ACCESS-KEY',
+  web3formsKey: '0f04ec17-5c9d-4f59-9cd9-5213f81b72ee',
 } as const;
 
 export const igLink = 'https://instagram.com/' + site.instagram;
