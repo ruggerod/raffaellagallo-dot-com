@@ -118,19 +118,14 @@ export default function ContactForm() {
 
         <label style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <span style={labelText}>Quale servizio ti interessa?</span>
-          <select
-            className="fieldInput"
-            value={String(v.servizio ?? '')}
-            onChange={set('servizio')}
-            style={{
-              ...field,
-              appearance: 'none',
-              backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%232799A4' stroke-width='1.6' d='M1 1l5 5 5-5'/%3E%3C/svg%3E\")",
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 16px center',
-              paddingRight: 44,
-            }}
-          >
+          <select className="fieldInput" value={String(v.servizio ?? '')} onChange={set('servizio')} style={{
+            ...field,
+            appearance: 'none',
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%232799A4' stroke-width='1.6'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right 16px center',
+            paddingRight: 44,
+          }}>
             <option value="">Non lo so ancora</option>
             {servizi.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
