@@ -1,4 +1,4 @@
-import { Eyebrow, H1, Sub, Prose, Photo, Multi, Cta } from '../components/ui';
+import { Eyebrow, H1, Sub, Prose, Shot, Multi, Cta } from '../components/ui';
 import { k9Blocks } from '../data/content';
 import { color, font, waLink } from '../theme';
 
@@ -22,7 +22,7 @@ export default function K9() {
         </Prose>
       </section>
 
-      <Photo label="foto — cane in movimento / esercizio" ratio="1/1" max={460} />
+      <Shot src="/images/504345719_18516407164008070_5662663337861720551_n.jpg" alt="Cane in movimento durante un esercizio di K9 Cross Training" ratio="1/1" max={460} position="50% 50%" style={{ marginTop: 30 }} />
 
       <section style={{ padding: '44px 0 0', display: 'grid', gap: 16 }}>
         {k9Blocks.map(b => (

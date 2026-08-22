@@ -67,15 +67,18 @@ export const Cta = ({ href, children, tone = 'solid' }: { href: string; children
   );
 };
 
-/** Segnaposto immagine: sostituire con <img> quando le foto sono pronte. */
-export const Photo = ({ label, ratio = '4/5', max }: { label: string; ratio?: string; max?: number }) => (
-  <div style={{
-    margin: '28px 0 0', aspectRatio: ratio, maxHeight: max,
-    background: 'repeating-linear-gradient(135deg,#EEF3F3 0 12px,#F6F9F9 12px 24px)',
-    display: 'flex', alignItems: 'flex-end', padding: 16,
-  }}>
-    <span style={{ fontFamily: font.mono, fontSize: 10, color: color.muted }}>{label}</span>
-  </div>
+/** Foto inserita nel flusso della colonna di testo. */
+export const Shot = ({ src, alt, ratio = '3/2', max, position = '50% 45%', style }: { src: string; alt: string; ratio?: string; max?: number; position?: string; style?: CSSProperties }) => (
+  <figure style={{ margin: '28px 0 0', aspectRatio: ratio, maxHeight: max, overflow: 'hidden', background: color.pearl, ...style }}>
+    <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: position, display: 'block' }} />
+  </figure>
+);
+
+/** Foto a tutta larghezza, esce dai margini del contenitore. */
+export const BleedShot = ({ src, alt, position = '50% 45%', style }: { src: string; alt: string; position?: string; style?: CSSProperties }) => (
+  <figure style={{ margin: 0, marginInline: 'calc(50% - 50vw)', width: '100vw', height: 'clamp(280px, 42vw, 520px)', overflow: 'hidden', background: color.pearl, ...style }}>
+    <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: position, display: 'block' }} />
+  </figure>
 );
 
 export const Card = ({ children, accentTop = false }: { children: ReactNode; accentTop?: boolean }) => (

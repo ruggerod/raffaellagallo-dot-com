@@ -1,4 +1,4 @@
-import { Eyebrow, H1, H2, Prose, Photo, Rule, Band } from '../components/ui';
+import { Eyebrow, H1, H2, Prose, Shot, BleedShot, Rule, Band } from '../components/ui';
 import { color, font } from '../theme';
 
 export default function ChiSono() {
@@ -9,7 +9,7 @@ export default function ChiSono() {
         <H1>Piacere, sono Raffaella.</H1>
       </section>
 
-      <Photo label="ritratto — Raffaella" ratio="3/4" max={480} />
+      <Shot src="/images/chisono-ritratto-web.jpg" alt="Ritratto di Raffaella Gallo" ratio="3/2" max={520} position="50% 40%" />
 
       <Prose style={{ padding: '36px 0 0' }}>
         <p>Da bambina passavo ore davanti ai cartoni Disney sognando di avere un cane tutto mio. Quando avevo otto anni è arrivato Fliz, un piccolo Barbone bianco che ha cambiato la mia vita.</p>
@@ -25,8 +25,9 @@ export default function ChiSono() {
       </p>
       <p style={{ fontSize: 16.5, lineHeight: 1.8, color: color.body, marginTop: 18 }}>Prima bisogna capire chi abbiamo davanti.</p>
 
-      <section style={{ padding: '56px 0 0' }}>
-        <Rule style={{ marginBottom: 34 }} />
+      <BleedShot src="/images/chisono-metodo-web.jpg" alt="Raffaella al lavoro con un cane" style={{ marginTop: 56 }} />
+
+      <section style={{ padding: '52px 0 0' }}>
         <H2>Il mio modo di lavorare</H2>
         <Prose style={{ marginTop: 20 }}>
           <p>Non credo che educare un cane significhi semplicemente insegnargli cosa fare.</p>
@@ -66,6 +67,8 @@ export default function ChiSono() {
           “Non cerco di costruire cani perfetti. Cerco di aiutare persone e cani a comprendersi davvero.”
         </p>
       </Band>
+
+      <BleedShot src="/images/32f5e461-d1e2-4150-a9a2-1a081769152b.jpg" alt="Raffaella con i suoi cani" />
     </div>
   );
 }

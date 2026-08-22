@@ -1,5 +1,5 @@
 export type Testimonial = { name: string; text: string };
-export type Block = { title: string; sub?: string; body: string; price?: string };
+export type Block = { title: string; sub?: string; body: string; price?: string; map?: string; bodyAfter?: string };
 export type Principio = { n: string; title: string; body: string };
 export type PercorsoCard = { title: string; body: string; to: string };
 
@@ -123,7 +123,9 @@ export const tariffeBlocks: Block[] = [
     title: 'Incontri a domicilio',
     sub: 'Quando è utile lavorare dove vive il cane',
     price: 'da 80 €',
-    body: 'In alcune situazioni è particolarmente utile lavorare direttamente nell’ambiente in cui il cane vive o nel luogo in cui si presenta una specifica difficoltà.\n\nPer questo è possibile svolgere a domicilio sia un incontro singolo sia uno o più incontri all’interno di un percorso.\n\nLa tariffa base dell’incontro educativo è di 70 €. Per il domicilio viene aggiunto esclusivamente il supplemento relativo alla zona:\n\nFascia 1 → +10 €\nFascia 2 → +25 €\nFascia 3 → +35 €\n\nQuesto significa che l’incontro singolo a domicilio avrà un costo complessivo rispettivamente di 80 €, 95 € o 105 €.\n\nHai già acquistato un percorso? Se durante Primi Passi, Sintonia o Barbone in Sintonia riteniamo utile svolgere uno degli incontri a casa tua, nel tuo quartiere o in un’altra area di lavoro, al percorso già acquistato verrà aggiunto soltanto il supplemento relativo a quell’incontro. Gli altri incontri potranno continuare a svolgersi presso di me oppure online.\n\nFuori dalle zone indicate? Indicami il comune o la zona al momento della richiesta: ti confermerò la mia disponibilità e il relativo costo della trasferta.',
+    body: 'In alcune situazioni è particolarmente utile lavorare direttamente nell’ambiente in cui il cane vive o nel luogo in cui si presenta una specifica difficoltà.\n\nPer questo è possibile svolgere a domicilio sia un incontro singolo sia uno o più incontri all’interno di un percorso.\n\nLa tariffa base dell’incontro educativo è di 70 €. Per il domicilio viene aggiunto esclusivamente il supplemento relativo alla zona:',
+    map: '/images/chatgpt-image-18-ago-2026-12_54_56.png',
+    bodyAfter: 'Fascia 1 → +10 €\nFascia 2 → +25 €\nFascia 3 → +35 €\n\nQuesto significa che l’incontro singolo a domicilio avrà un costo complessivo rispettivamente di 80 €, 95 € o 105 €.\n\nHai già acquistato un percorso? Se durante Primi Passi, Sintonia o Barbone in Sintonia riteniamo utile svolgere uno degli incontri a casa tua, nel tuo quartiere o in un’altra area di lavoro, al percorso già acquistato verrà aggiunto soltanto il supplemento relativo a quell’incontro. Gli altri incontri potranno continuare a svolgersi presso di me oppure online.\n\nFuori dalle zone indicate? Indicami il comune o la zona al momento della richiesta: ti confermerò la mia disponibilità e il relativo costo della trasferta.',
   },
   {
     title: 'K9 Cross Training',

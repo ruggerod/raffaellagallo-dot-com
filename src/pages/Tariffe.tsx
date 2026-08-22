@@ -24,6 +24,12 @@ export default function Tariffe() {
             <h2 style={{ fontFamily: font.display, fontSize: 'clamp(23px, 5.4vw, 32px)', lineHeight: 1.2 }}>{b.title}</h2>
             <p style={{ fontFamily: font.display, fontStyle: 'italic', fontSize: 17, color: color.teal, marginTop: 8 }}>{b.sub}</p>
             <Multi text={b.body} style={{ marginTop: 16 }} />
+            {b.map && (
+              <figure style={{ margin: '22px 0 0', background: color.pearl }}>
+                <img src={b.map} alt="Mappa delle zone di intervento a domicilio, suddivise in tre fasce" style={{ width: '100%', height: 'auto', display: 'block' }} />
+              </figure>
+            )}
+            {b.bodyAfter && <Multi text={b.bodyAfter} style={{ marginTop: 16 }} />}
             <p style={{ fontFamily: font.display, fontSize: 40, color: color.ink, marginTop: 18 }}>{b.price}</p>
           </Card>
         ))}
