@@ -14,8 +14,8 @@ import Dicono from './pages/Dicono';
 import Contatti from './pages/Contatti';
 import Privacy from './pages/Privacy';
 
-/** Metti a true per la barra fissa WhatsApp / Instagram / Email su mobile. */
-const SHOW_STICKY_BAR = false;
+/** Barra fissa in fondo allo schermo con la CTA "Richiedi un incontro". */
+const SHOW_STICKY_BAR = true;
 
 export default function App() {
   const { pathname } = useLocation();
