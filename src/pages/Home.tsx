@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { H2, Cta, Band } from "../components/ui";
 import { percorsiCards, testimonials } from "../data/content";
-import { color, font, site, waLink, mailLink } from "../theme";
+import { color, font, site, mailLink } from "../theme";
 
 export default function Home() {
   return (

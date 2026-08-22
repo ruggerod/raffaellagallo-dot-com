@@ -17,9 +17,13 @@ export default function Header() {
       borderBottom: '1px solid ' + color.pearl,
     }}>
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-        <Link to="/" onClick={() => setOpen(false)} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <span style={{ fontFamily: font.display, fontSize: 19, letterSpacing: '.1em', color: color.ink, lineHeight: 1 }}>RAFFAELLA GALLO</span>
-          <span style={{ fontFamily: font.accent, fontSize: 8.5, letterSpacing: '.34em', color: color.teal }}>- PET COACH -</span>
+        <Link to="/" onClick={() => setOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <img src="/brand/silhouette.svg" alt="" style={{ height: 40, width: 'auto', display: 'block' }} />
+          <span style={{ width: 1, height: 34, background: color.tiffany, display: 'block' }} />
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <span style={{ fontFamily: font.display, fontWeight: 600, fontSize: 19, letterSpacing: '.1em', color: color.ink, lineHeight: 1 }}>RAFFAELLA GALLO</span>
+            <span style={{ fontFamily: font.accent, fontWeight: 500, fontSize: 8.5, letterSpacing: '.34em', color: color.teal }}>PET COACH</span>
+          </span>
         </Link>
         <button
           aria-label="Menu"

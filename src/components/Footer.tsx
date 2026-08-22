@@ -9,8 +9,9 @@ export default function Footer({ sticky }: { sticky: boolean }) {
     <footer style={{ background: color.ink, color: color.ivory, padding: sticky ? '52px 20px 110px' : '52px 20px 56px' }}>
       <div style={{ maxWidth: 1080, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 32 }}>
         <div>
-          <p style={{ fontFamily: font.display, fontSize: 19, letterSpacing: '.1em' }}>RAFFAELLA GALLO</p>
-          <p style={{ fontFamily: font.accent, fontSize: 8.5, letterSpacing: '.34em', color: color.tiffany, marginTop: 6 }}>- PET COACH -</p>
+          <img src="/brand/silhouette-white.svg" alt="Raffaella Gallo Pet Coach" style={{ height: 64, width: 'auto', display: 'block', marginBottom: 18 }} />
+          <p style={{ fontFamily: font.display, fontWeight: 600, fontSize: 19, letterSpacing: '.1em' }}>RAFFAELLA GALLO</p>
+          <p style={{ fontFamily: font.accent, fontWeight: 500, fontSize: 8.5, letterSpacing: '.34em', color: color.tiffany, marginTop: 6 }}>PET COACH</p>
           <p style={{ fontSize: 14.5, lineHeight: 1.8, color: 'rgba(250,249,246,.66)', marginTop: 18 }}>
             {site.city}<br />{site.email}
           </p>
