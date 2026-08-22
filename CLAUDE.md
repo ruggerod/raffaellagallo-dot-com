@@ -31,7 +31,7 @@ Flusso standard per una richiesta di modifica:
     src/routes.ts         rotte + label del menu. Aggiungere una pagina = una riga qui + un file in pages/.
     src/data/content.ts   TUTTI i testi del sito, tipizzati. Nessuna copy hardcoded nelle pagine tranne la prosa lunga.
     src/components/ui.tsx primitive: Eyebrow, H1, H2, Sub, Prose, Rule, Multi, Band, Cta, Photo, Card.
-    src/components/       Header (menu a tendina), Footer, StickyBar.
+    src/components/       Header (menu a tendina), Footer, StickyBar, ContactForm.
     src/pages/            una pagina per rotta.
     public/CNAME          raffaellagallo.com — non cancellare.
     public/404.html       fallback SPA per GitHub Pages — non cancellare.
@@ -67,8 +67,11 @@ posizionamento su Google. Non rinominarli.
 `grid-template-columns: repeat(auto-fit, minmax(...))` e `clamp()` per la tipografia.
 Nessuna media query se si può evitare. Target touch mai sotto 44px.
 
-**Contatti.** Nessun form: solo link diretti WhatsApp (`wa.me`), Instagram e `mailto:`.
-Devono aprire le app native su mobile. I valori stanno in `src/theme.ts`, non duplicarli.
+**Contatti.** La pagina `/contact/` ha un form (`src/components/ContactForm.tsx`) che recapita
+le richieste a `site.email` tramite **Web3Forms**: un `POST` in JSON, nessun backend, nessun
+passo di deploy in più. Vedi `DEPLOY.md` per la access key e i limiti del piano gratuito.
+Altrove restano i link diretti Instagram e `mailto:`, che devono aprire le app native su
+mobile. Tutti i valori stanno in `src/theme.ts`, non duplicarli.
 
 **Dipendenze.** Non aggiungerne. Se una modifica sembra richiedere un pacchetto, fermati e
 chiedi.

@@ -45,4 +45,44 @@ Fallo **solo dopo** che il nuovo sito risponde correttamente su https://raffaell
 - Le email `@raffaellagallo.com`: se usi un servizio email collegato al dominio via WordPress, va riconfigurato (record MX) o migrato.
 - Redirect: i vecchi URL WordPress (`/about/`, `/percorsi/`, `/pensioni-casalinghe/`…) non esisteranno più. GitHub Pages non fa redirect server-side; se ti interessa mantenere il posizionamento su Google, conviene creare pagine separate con quegli stessi percorsi.
 - Aggiorna il link in bio su Instagram e Facebook se puntava a una pagina interna.
-- Il modulo contatti non esiste più: il sito usa link diretti WhatsApp / Instagram / email, che funzionano senza server.
+
+## 7. Il modulo contatti
+GitHub Pages serve solo file statici e non può ricevere l'invio di un form. La pagina
+`/contact/` usa quindi **Web3Forms**: il browser fa un `POST` in JSON a
+`https://api.web3forms.com/submit` e loro inoltrano la richiesta via email a
+`raffa.fliz@gmail.com`. Il `Rispondi` di Gmail è già preimpostato sull'indirizzo di chi ha
+scritto.
+
+**Il deploy non cambia.** Resta `npm run deploy`: il form non aggiunge nessun passo di
+pubblicazione, nessun server e nessun record DNS.
+
+**Access key.** Si ottiene su https://web3forms.com/ inserendo l'indirizzo email e cliccando
+il link di verifica che arriva in casella. Va incollata in `web3formsKey` dentro
+`src/theme.ts`. Non è un segreto: finisce nel bundle JavaScript pubblico ed è previsto che
+sia così.
+
+**Limiti del piano gratuito, da conoscere:**
+- 250 invii al mese. Il volume atteso è di poche decine, il margine è ampio.
+- Gli invii restano archiviati 30 giorni sui server Web3Forms (AWS, Stati Uniti), poi
+  vengono cancellati. Non è un semplice inoltro: è un trattamento di dati personali fuori
+  dall'UE e va dichiarato nell'informativa privacy.
+- La risposta automatica a chi scrive e la restrizione per dominio sono funzioni a pagamento
+  (~5 $/mese). Al posto della prima il sito mostra la schermata di conferma.
+
+**Come si prova.** Solo dal browser. Web3Forms risponde `403` alle chiamate che non
+sembrano venire da una pagina web, quindi un test con `curl` fallisce anche con la chiave
+giusta: non è un errore di configurazione. La access key deve essere un UUID valido,
+altrimenti la risposta è `400`.
+
+**Se arriva spam.** La chiave è pubblica, quindi chiunque la copi dal sito può inviare a
+quell'indirizzo: il blocco lato server descritto sopra si aggira impostando gli header di un
+browser, è un rallentamento e non una protezione. Il form ha già un honeypot (campo
+`botcheck`) che ferma i bot generici. Se
+dovesse comparire spam mirato, in ordine di sforzo crescente: rigenerare la access key,
+passare al piano a pagamento per l'allowlist di dominio, aggiungere Cloudflare Turnstile.
+
+**Da chiudere prima di andare online.** `src/pages/Privacy.tsx` è ancora un placeholder, ma
+il form ha una checkbox di consenso obbligatoria che ci punta. L'informativa deve nominare
+Web3Forms come responsabile del trattamento, indicare la conservazione di 30 giorni negli
+Stati Uniti e la base del trasferimento extra-UE, oltre a finalità, tempi e diritti
+dell'interessato.
