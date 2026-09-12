@@ -5,6 +5,12 @@
     <title>Raffaella Gallo</title>
     <script>
       // GitHub Pages SPA fallback: reindirizza mantenendo il path.
+      //
+      // In una build normale questo file NON arriva in produzione: scripts/prerender.mjs
+      // sovrascrive dist/404.html con la pagina "Pagina non trovata" già renderizzata,
+      // che non ha bisogno di alcun redirect. Resta qui come rete di sicurezza per il
+      // caso in cui il prerender non venga eseguito (per esempio un `vite build` a mano):
+      // senza, ogni indirizzo sconosciuto mostrerebbe una pagina bianca.
       var l = window.location;
       l.replace(l.origin + '/?redirect=' + encodeURIComponent(l.pathname + l.search + l.hash));
     </script>

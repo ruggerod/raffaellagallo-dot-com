@@ -13,6 +13,7 @@ import Tariffe from './pages/Tariffe';
 import Dicono from './pages/Dicono';
 import Contatti from './pages/Contatti';
 import Privacy from './pages/Privacy';
+import NotFound from './pages/NotFound';
 
 /** Barra fissa in fondo allo schermo con la CTA "Richiedi un incontro". */
 const SHOW_STICKY_BAR = true;
@@ -36,7 +37,7 @@ export default function App() {
           <Route path="/testimonial/" element={<Dicono />} />
           <Route path="/contact/" element={<Contatti />} />
           <Route path="/privacy-policy/" element={<Privacy />} />
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer sticky={SHOW_STICKY_BAR} />

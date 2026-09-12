@@ -41,6 +41,39 @@ Poi, quando la modifica è pronta:
 usa il server di sviluppo, `preview` serve la cartella `dist/` reale. Le differenze fra i due
 sono rare ma esistono, ed è l'ultima occasione per vederle prima che siano pubbliche.
 
+Un'avvertenza su `preview`: per un indirizzo inesistente mostra la home, mentre GitHub Pages
+mostra la pagina "Pagina non trovata". È una differenza del server di anteprima, non un
+errore. Per controllare quella pagina in locale apri direttamente `dist/404.html`.
+
+## Il prerender: perché `build` fa un passaggio in più
+
+    npm run build   →   tsc -b   →   vite build   →   node scripts/prerender.mjs
+
+GitHub Pages serve soltanto file che esistono su disco. Con il solo `dist/index.html`, ogni
+indirizzo diverso dalla home rispondeva `404`: per una persona funzionava lo stesso, grazie al
+ripiego JavaScript, ma **Googlebot registrava il 404 e scartava l'URL prima di eseguire il
+JavaScript**, quindi nessuna pagina interna poteva essere indicizzata.
+
+`scripts/prerender.mjs` risolve la cosa alla radice: dopo la build compila l'applicazione una
+seconda volta per Node (`src/entry-server.tsx`) e scrive un `index.html` per ogni rotta, con il
+contenuto React già renderizzato dentro, i tag `<head>` della singola pagina presi da
+`src/seo.ts`, e in più `sitemap.xml`, `robots.txt` e un `404.html` vero. Sul browser
+`src/main.tsx` riusa quell'HTML (`hydrateRoot`) invece di ridisegnarlo.
+
+Non servono dipendenze nuove: usa `vite`, `react-dom/server` e `react-router-dom/server`, già
+presenti. La cartella temporanea `.prerender/` viene cancellata al termine ed è in `.gitignore`.
+
+Conseguenze pratiche:
+
+- **Ogni rotta in `src/routes.ts` deve avere la sua voce in `src/seo.ts`**, altrimenti la build
+  si ferma con un messaggio esplicito. È voluto: una pagina senza titolo proprio è una pagina
+  che su Google compare identica a un'altra.
+- I marcatori `<!-- seo:start -->` e `<!-- seo:end -->` in `index.html` delimitano il blocco che
+  il prerender sostituisce. Se spariscono, la build si ferma.
+- Il tag di verifica di Google Search Console sta in `googleSiteVerification` dentro
+  `src/seo.ts` e viene scritto in tutte le pagine. **Non va rimosso**: Google ricontrolla
+  periodicamente e toglierlo fa decadere la proprietà in Search Console.
+
 ## Dove si mette cosa
 
 | Cosa vuoi cambiare | File |
@@ -48,7 +81,8 @@ sono rare ma esistono, ed è l'ultima occasione per vederle prima che siano pubb
 | Un testo breve, ripetuto o strutturato | `src/data/content.ts` |
 | Prosa lunga di una singola pagina | direttamente in `src/pages/<Pagina>.tsx` |
 | Colori, font, email, dati di contatto | `src/theme.ts` — unica fonte, non duplicare |
-| Aggiungere una pagina | una riga in `src/routes.ts` + un file in `src/pages/` |
+| Titolo e descrizione di una pagina su Google | `src/seo.ts` |
+| Aggiungere una pagina | una riga in `src/routes.ts` + una voce in `src/seo.ts` + un file in `src/pages/` |
 | Foto e immagini | `public/images/`, riferite con path assoluto `/images/...` |
 | Logo, favicon | `public/brand/` |
 | Un elemento visivo ricorrente | `src/components/ui.tsx` (Eyebrow, H1, H2, Prose, Card…) |
@@ -59,10 +93,13 @@ Prima di scrivere un componente nuovo, guarda `ui.tsx`: quasi tutto esiste già.
 
 - **`public/CNAME`** — contiene `raffaellagallo.com`. Se sparisce, al primo deploy GitHub
   perde il dominio personalizzato e l'HTTPS si rompe. È il singolo file più fragile del repo.
-- **`public/404.html`** — è il ripiego SPA di GitHub Pages: converte `/percorsi/` in
-  `/?redirect=/percorsi/`. Funziona in coppia con le righe 8-9 di `src/main.tsx`, che
-  riscrivono l'URL prima che parta il router. Se tocchi uno, controlla l'altro: senza, ogni
-  link diretto a una pagina interna smette di funzionare.
+- **`public/404.html`** — era il ripiego SPA di GitHub Pages: convertiva `/percorsi/` in
+  `/?redirect=/percorsi/`. Dal prerender in poi **non arriva più in produzione**: il passaggio
+  di build sovrascrive `dist/404.html` con la pagina "Pagina non trovata" vera. Resta nel repo,
+  in coppia con le righe che leggono `redirect` in `src/main.tsx`, solo come rete di sicurezza
+  per una build senza prerender. Non cancellarlo, ma non è più il meccanismo attivo.
+- **`scripts/prerender.mjs` e i marcatori `seo` in `index.html`** — senza di loro si torna al
+  404 su ogni pagina interna e il sito sparisce da Google nel giro di qualche settimana.
 - **`base: '/'` in `vite.config.ts`** — corretto per un dominio apex. Cambiarlo rompe tutti
   i path degli asset.
 - **I path delle rotte** — ricalcano le vecchie URL WordPress per non perdere il
@@ -83,12 +120,13 @@ Controllo rapido da terminale:
     curl -s https://raffaellagallo.com/ | grep -o 'assets/index-[^"]*'
 
 Il terzo comando mostra il nome dell'asset pubblicato: se l'hash è cambiato rispetto a prima,
-il deploy è arrivato davvero. `/percorsi/` risponde `404` **ed è corretto**: GitHub serve
-`404.html` con quello stato, e il redirect avviene nel browser.
+il deploy è arrivato davvero. `/percorsi/` deve rispondere **`200`**: se torna `404`, il
+prerender non è arrivato in produzione ed è un problema serio, perché è esattamente ciò che
+impedisce a Google di indicizzare il sito.
 
 Dal browser, dopo una modifica importante: home, una pagina interna raggiunta da link, la
-stessa pagina raggiunta **incollando l'URL** (è il caso che usa il ripiego 404), e la pagina
-Contatti.
+stessa pagina raggiunta **incollando l'URL**, un indirizzo inventato (deve mostrare la pagina
+"Pagina non trovata", non la home) e la pagina Contatti.
 
 ## Tornare indietro
 
@@ -116,6 +154,24 @@ l'informativa va aggiornata nello stesso momento, non dopo. Vale anche per il co
 un servizio viene tolto, la sua voce va rimossa.
 
 Il modulo contatti e i suoi vincoli sono documentati in `DEPLOY.md` §7.
+
+## Google e Search Console
+
+La proprietà `raffaellagallo.com` è verificata con il metodo **Tag HTML**: il token sta in
+`googleSiteVerification` dentro `src/seo.ts` e il prerender lo scrive in tutte le pagine.
+
+Cosa controllare quando si aggiunge o si rinomina una pagina:
+
+1. la voce corrispondente in `src/seo.ts` (senza, la build si ferma);
+2. dopo il deploy, che `https://raffaellagallo.com/sitemap.xml` contenga il nuovo indirizzo;
+3. in Search Console, **Controllo URL** sul nuovo indirizzo → **Richiedi indicizzazione**.
+
+Le pagine con `noindex: true` in `src/seo.ts` — oggi solo la privacy policy — restano
+raggiungibili ma fuori dalla sitemap e fuori dall'indice. È voluto.
+
+Una pagina eliminata deve rispondere `404`, non essere reindirizzata alla home: Google tratta
+un redirect verso una pagina non equivalente come *soft 404* e non trasferisce posizionamento.
+Il `404` corretto fa sparire il vecchio indirizzo dall'indice da solo in qualche settimana.
 
 ## Manutenzione periodica
 

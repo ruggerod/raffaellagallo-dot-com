@@ -21,7 +21,7 @@ Flusso standard per una richiesta di modifica:
 
     npm install
     npm run dev        # dev server
-    npm run build      # tsc -b && vite build → dist/
+    npm run build      # tsc -b && vite build && node scripts/prerender.mjs → dist/
     npm run preview
     npm run deploy     # gh-pages -d dist --dotfiles
 
@@ -35,13 +35,16 @@ I nomi dei file sono in inglese anche quando il contenuto è in italiano.
 ## Struttura
 
     src/theme.ts          colori, font, contatti (WhatsApp, Instagram, email). Unica fonte dei token.
-    src/routes.ts         rotte + label del menu. Aggiungere una pagina = una riga qui + un file in pages/.
+    src/routes.ts         rotte + label del menu. Aggiungere una pagina = una riga qui + una voce in seo.ts + un file in pages/.
+    src/seo.ts            title, description e noindex per rotta, più il token di Google Search Console.
     src/data/content.ts   TUTTI i testi del sito, tipizzati. Nessuna copy hardcoded nelle pagine tranne la prosa lunga.
     src/components/ui.tsx primitive: Eyebrow, H1, H2, Sub, Prose, Rule, Multi, Band, Cta, Photo, Card.
     src/components/       Header (menu a tendina), Footer, StickyBar, ContactForm.
-    src/pages/            una pagina per rotta.
+    src/pages/            una pagina per rotta, più NotFound.
+    src/entry-server.tsx  entry usato solo dal prerender, mai dal browser.
+    scripts/prerender.mjs post-build: un index.html per rotta + sitemap.xml + robots.txt + 404.html.
     public/CNAME          raffaellagallo.com — non cancellare.
-    public/404.html       fallback SPA per GitHub Pages — non cancellare.
+    public/404.html       vecchio fallback SPA, ormai sovrascritto dal prerender. Rete di sicurezza, non cancellare.
 
 ## Regole non negoziabili
 
@@ -64,6 +67,13 @@ esplicitamente. Tutto il sito è in italiano.
 Non introdurre nuovi colori, nuovi font, gradienti o emoji. Niente librerie di UI, niente
 Tailwind, niente CSS-in-JS: lo stile è in style object inline più `src/index.css` per reset,
 font e stati hover.
+
+**Prerender.** Il build non produce più un solo `index.html`: `scripts/prerender.mjs` scrive un
+file HTML per ogni rotta, con il contenuto React già renderizzato e i tag `<head>` presi da
+`src/seo.ts`. Senza, ogni pagina interna risponde 404 su GitHub Pages e Google non indicizza
+nulla. Non togliere il passo dal `build`, non togliere i marcatori `<!-- seo:start/end -->` da
+`index.html`, e dai una voce in `src/seo.ts` a ogni nuova rotta. Il token
+`googleSiteVerification` in `src/seo.ts` non va mai rimosso.
 
 **Rotte.** I path ricalcano le vecchie URL WordPress (`/about/`, `/cani-con-ansie-e-fobie/`,
 `/percorsi/`, `/barbone-in-sintonia/`, `/rimettersi-in-forma-con-il-k9-cross-training/`,
